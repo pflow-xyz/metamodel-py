@@ -1,4 +1,4 @@
-# Petriflow
+# metamodel
 
 
 This library provides a domain-specific-language for declaring petri-nets.
