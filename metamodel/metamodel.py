@@ -16,6 +16,11 @@ class MetaModel(object):
         self.transitions = {}
         self.roles = {}
 
+    def graph(self):
+        # TODO: add utility function rebuild arcs
+        # https://github.com/pFlow-dev/go-metamodel/blob/master/metamodel/metamodel.go#L380
+        pass
+
     def reindex(self):
         """ load model as state machine """
 

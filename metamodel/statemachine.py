@@ -47,7 +47,7 @@ class StateMachine(object):
 
         return initial
 
-    def capacity_vectory(self):
+    def capacity_vector(self):
         """ max capacity vector """
         initial = self.empty_vector()
 

@@ -1,5 +1,5 @@
 import unittest
-from metamodel import Models
+from metamodel import Models, Model
 from examples import Counter, Pointer, TicTacToe
 from metamodel.error import InvalidOutput, InvalidInput, GuardFail
 
@@ -52,3 +52,9 @@ class ModelTestCase(unittest.TestCase):
         state1, _ = TicTacToe.transform(state0, '11', 1)
         state2, _ = TicTacToe.transform(state1, 'O', 1)
         TicTacToe.transform(state2, '01', 1)
+
+    def test_record_coversion(self):
+        rec = Counter.to_record()
+        m = Model.from_record(rec)
+
+        self.assertEqual(m.initial_vector(), Counter.initial_vector())
