@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name="metamodel",
+    name="pflow-metamodel",
     version="0.3.0",
     author="stackdump",
     author_email="myork@stackdump.com",

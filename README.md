@@ -6,7 +6,7 @@ This library provides a domain-specific-language for declaring petri-nets.
 
 ## Install
 
-`pip install metamodel`
+`pip install pflow-metamodel`
 
 
 ## Demo
