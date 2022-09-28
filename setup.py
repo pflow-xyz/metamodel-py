@@ -13,9 +13,9 @@ setup(
     long_description="""
     This library used to declare and simulate Petri-net models.
     """,
-    url="https://pflow.dev/metamodel-py",
+    url="https://github.com/pFlow-dev/metamodel-py",
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: MIT License"
     ],
 )
