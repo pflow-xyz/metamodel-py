@@ -5,7 +5,7 @@ Provides uint counters [P0,P1] for testing
 """
 
 
-def v1(role, cell, fn):
+def v1(fn, cell, role):
 
     user = role("default")
 

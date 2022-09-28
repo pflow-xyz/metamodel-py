@@ -16,7 +16,7 @@ class Model(StateMachine):
     def __init__(self, schema, declaration):
         self.schema = schema
         mm = MetaModel()
-        declaration(mm.role, mm.cell, mm.defun)
+        declaration(mm.defun, mm.cell, mm.role)
         mm.reindex()
         self.places = mm.places
         self.transitions = mm.transitions
@@ -42,7 +42,7 @@ class Model(StateMachine):
 
     def to_record(self):
         """ export to record format """
-        places = [None]*len(self.places)
+        places = [None] * len(self.places)
         for label, p in self.places.items():
             places[p['offset']] = (
                 label, p['initial'], p['capacity'], p['offset'], (p['coords']['x'], p['coords']['y']))
@@ -55,20 +55,21 @@ class Model(StateMachine):
             transitions[t['offset']] = (
                 label, t['delta'], guards, t['role'], (t['coords']['x'], t['coords']['y']))
 
-        return (self.schema, places, transitions)
+        return self.schema, places, transitions
 
-    @staticmethod 
+    @staticmethod
     def from_record(r):
         (schema, places, transitions) = r
-        
+
         def declaration(role, cell, fn):
-            pass # empty
+            pass  # empty
 
         m = Model(schema, declaration)
 
         for p in places:
             (label, initial, capacity, offset, coords) = p
-            m.places[label] = { "label": label, "initial": initial, "capacity": capacity, "offset": offset, "coords": coords }
+            m.places[label] = {"label": label, "initial": initial, "capacity": capacity, "offset": offset,
+                               "coords": coords}
 
         for t in transitions:
             (label, delta, guards, role, coords) = t
@@ -77,6 +78,6 @@ class Model(StateMachine):
                 (label, delta) = g
                 guard_map[label] = delta
 
-            m.transitions[label] = { "label": label, "delta": delta, "guards": guard_map, "role": role, "coords": coords }
+            m.transitions[label] = {"label": label, "delta": delta, "guards": guard_map, "role": role, "coords": coords}
 
         return m

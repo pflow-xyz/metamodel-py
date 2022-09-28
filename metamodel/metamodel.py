@@ -1,8 +1,5 @@
 from metamodel.error import *
 
-PLACE = 'place'
-TRANSITION = 'transition'
-
 
 class MetaModel(object):
     """
@@ -16,11 +13,6 @@ class MetaModel(object):
         self.transitions = {}
         self.roles = {}
 
-    def graph(self):
-        # TODO: add utility function rebuild arcs
-        # https://github.com/pFlow-dev/go-metamodel/blob/master/metamodel/metamodel.go#L380
-        pass
-
     def reindex(self):
         """ load model as state machine """
 
@@ -33,7 +25,7 @@ class MetaModel(object):
             p = None
             w = 0
 
-            if arc['source'].node_type == PLACE:
+            if arc['source'].place != None:
                 p_label = arc['source'].label
                 t_label = arc['target'].label
                 p = self.places[p_label]
@@ -46,7 +38,7 @@ class MetaModel(object):
                     t['guards'][p_label] = delta
                     continue
 
-            if arc['source'].node_type == TRANSITION:
+            if arc['source'].transition != None:
                 t_label = arc['source'].label
                 p_label = arc['target'].label
                 t = self.transitions[t_label]
@@ -68,8 +60,9 @@ class MetaModel(object):
     @staticmethod
     def _assert_valid_arc(a, b):
         """ test that arc defined using internal DSL is valid """
-        if a.node_type == b.node_type:
-            raise InvalidArc("%s -> %s" % (a.label, b.label))
+        if (a.place is not None and b.place is None) or (a.transition is not None and b.transition is None):
+            return
+        raise InvalidArc("%s -> %s" % (a.label, b.label))
 
     def role(self, name):
         """ declare roles to for ACL around transitions """
@@ -89,7 +82,7 @@ class MetaModel(object):
         if label in self.places:
             raise DuplicateLabel(label)
         self.places[label] = cell
-        return Node(self, label, PLACE)
+        return Node(self, label, place=cell)
 
     def defun(self, label, **fn):
         """ define a transition function """
@@ -106,18 +99,23 @@ class MetaModel(object):
             raise DuplicateLabel(label)
 
         self.transitions[label] = fn
-        return Node(self, label, TRANSITION)
+        return Node(self, label, transition=fn)
 
 
 class Node(object):
     """ provide points on a graph linking state machine elements """
 
-    def __init__(self, mm, label, node_type):
+    def __init__(self, mm, label, **place_or_transition):
         self.mm = mm
         self.label = label
-        self.node_type = node_type
-        self.place = None
-        self.transition = None
+        if "place" in place_or_transition:
+            self.place = place_or_transition["place"]
+            self.transition = None
+        elif "transition" in place_or_transition:
+            self.place = None
+            self.transition = place_or_transition["transition"]
+        else:
+            raise InvalidInput("Node must be place|transition")
 
     def tx(self, *tx):
         """ tx 'transmit' - Connect place and transaction elements with an arc """

@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="metamodel",
-    version="0.2.0",
+    version="0.3.0",
     author="stackdump",
     author_email="myork@stackdump.com",
     description="declare and simulate Petri-nets using python",

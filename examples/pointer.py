@@ -4,7 +4,7 @@ Defines valid states managing on-chain pointers to content or resources.
 """
 
 
-def v1(role, cell, fn):
+def v1(fn, cell, role):
     user = role("default")
 
     rev = cell("revision")                    # track all updates

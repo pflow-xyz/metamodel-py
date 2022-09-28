@@ -53,7 +53,7 @@ class ModelTestCase(unittest.TestCase):
         state2, _ = TicTacToe.transform(state1, 'O', 1)
         TicTacToe.transform(state2, '01', 1)
 
-    def test_record_coversion(self):
+    def test_record_conversion(self):
         rec = Counter.to_record()
         m = Model.from_record(rec)
 

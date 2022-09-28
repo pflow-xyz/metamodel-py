@@ -24,7 +24,7 @@ m21 = "21"
 m22 = "22"
 
 
-def v1(role, cell, fn):
+def v1(fn, cell, role):
 
     player = role("player")
 
